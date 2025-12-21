@@ -74,9 +74,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe timeline items and other content
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    timelineItems.forEach((item, index) => {
+    // Observe experience items and other content
+    const experienceItems = document.querySelectorAll('.experience-item');
+    experienceItems.forEach((item, index) => {
         item.style.opacity = '0';
         item.style.transform = 'translateY(20px)';
         item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;

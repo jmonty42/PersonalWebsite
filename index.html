@@ -8,6 +8,7 @@
     <title>Joseph (J.J.) Montgomery</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -36,6 +37,9 @@
                 </a>
                 <a href="https://www.linkedin.com/in/josephjmontgomery" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="#" id="resume-link-hero" class="resume-link">
+                    <i class="fas fa-file-pdf"></i> Resume
                 </a>
             </div>
         </div>
@@ -194,6 +198,9 @@
                     <a href="https://www.linkedin.com/in/josephjmontgomery" target="_blank" rel="noopener noreferrer" class="contact-link">
                         <i class="fab fa-linkedin"></i> linkedin.com/in/josephjmontgomery
                     </a>
+                    <a href="#" id="resume-link-contact" class="contact-link resume-link">
+                        <i class="fas fa-file-pdf"></i> View Resume
+                    </a>
                 </div>
             </div>
         </div>
@@ -205,6 +212,29 @@
             <p>&copy; 2025 Joseph Montgomery. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Resume Modal -->
+    <div id="resume-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Resume</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <canvas id="pdf-canvas"></canvas>
+                <div class="pdf-controls">
+                    <button id="prev-page">Previous</button>
+                    <span id="page-info">Page <span id="page-num"></span> of <span id="page-count"></span></span>
+                    <button id="next-page">Next</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="resume.pdf" download class="download-btn">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

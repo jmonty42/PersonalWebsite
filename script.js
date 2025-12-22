@@ -106,4 +106,115 @@ document.addEventListener('DOMContentLoaded', function() {
         contactContent.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(contactContent);
     }
+
+    // PDF Modal Viewer
+    const modal = document.getElementById('resume-modal');
+    const resumeLinks = document.querySelectorAll('.resume-link');
+    const closeBtn = document.querySelector('.modal-close');
+    const canvas = document.getElementById('pdf-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    const scale = 1.5;
+
+    // Configure PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    // Render PDF page
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            const viewport = page.getViewport({scale: scale});
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+
+            const renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        document.getElementById('page-num').textContent = num;
+
+        // Update button states
+        document.getElementById('prev-page').disabled = (num <= 1);
+        document.getElementById('next-page').disabled = (num >= pdfDoc.numPages);
+    }
+
+    // Queue page render
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+    // Previous page
+    document.getElementById('prev-page').addEventListener('click', function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    });
+
+    // Next page
+    document.getElementById('next-page').addEventListener('click', function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    });
+
+    // Open modal and load PDF
+    resumeLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Load PDF
+            pdfjsLib.getDocument('resume.pdf').promise.then(function(pdf) {
+                pdfDoc = pdf;
+                document.getElementById('page-count').textContent = pdf.numPages;
+                pageNum = 1;
+                renderPage(pageNum);
+            }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                alert('Error loading PDF: ' + error.message);
+            });
+        });
+    });
+
+    // Close modal
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close on background click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
 });

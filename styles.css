@@ -217,6 +217,17 @@ section h2::after {
     line-height: 1.8;
 }
 
+.about-content a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.about-content a:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
+}
+
 /* Experience Section */
 .experience-grid {
     max-width: 1000px;
@@ -303,6 +314,17 @@ section h2::after {
     margin-bottom: 1rem;
 }
 
+.experience-content a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.experience-content a:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
+}
+
 .tech-tags {
     display: flex;
     flex-wrap: wrap;
@@ -379,6 +401,17 @@ section h2::after {
 .education-content p {
     color: var(--text-secondary);
     line-height: 1.7;
+}
+
+.education-content a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.education-content a:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
 }
 
 /* Contact Section */
